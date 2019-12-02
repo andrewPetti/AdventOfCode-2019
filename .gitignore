@@ -30,3 +30,5 @@
 *.exe
 *.out
 *.app
+
+2019.out.dSYM/Contents/Info.plist
