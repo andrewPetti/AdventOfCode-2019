@@ -41,7 +41,9 @@ int Op5(std::vector<int> &vect, int pos1, int pos2, int mode1, int mode2, std::v
     auto val1 = mode1 == 0 ? vect[pos1] : pos1;
     if (val1 == 0)
         return 3;
-    *it = mode2 == 0 ? vect[pos2] : pos2;
+    //*it = mode2 == 0 ? vect[pos2] : pos2;
+    auto val2 = mode2 == 0?vect[pos2]:pos2;
+    it = vect.begin()+val2;
     //return *it;
     return 0;
 }
@@ -51,7 +53,9 @@ int Op6(std::vector<int> &vect, int pos1, int pos2, int mode1, int mode2, std::v
     auto val1 = mode1 == 0 ? vect[pos1] : pos1;
     if (val1 != 0)
         return 3;
-    *it = mode2 == 0 ? vect[pos2] : pos2;
+    //*it = mode2 == 0 ? vect[pos2] : pos2;
+    auto val2 = mode2 ==0?vect[pos2]:pos2;
+    it = vect.begin()+val2;
     //return *it;
     return 0;
 }
@@ -203,8 +207,8 @@ void Process()
     //                           1106, 0, 36, 98, 0, 0, 1002, 21, 125, 20, 4, 20, 1105, 1, 46, 104,
     //                           999, 1105, 1, 46, 1101, 1000, 1, 20, 4, 20, 1105, 1, 46, 98, 99};
     // // 0 for imput does not work
-    inputs = std::vector<int>{3, 12, 6, 12, 15, 1, 13, 14, 13, 4, 13, 99, -1, 0, 1, 9};
-    inputs = std::vector<int>{3, 3, 1105, -1, 9, 1101, 0, 0, 12, 4, 12, 99, 1};
+    //inputs = std::vector<int>{3, 12, 6, 12, 15, 1, 13, 14, 13, 4, 13, 99, -1, 0, 1, 9};
+    //inputs = std::vector<int>{3, 3, 1105, -1, 9, 1101, 0, 0, 12, 4, 12, 99, 1};
     //inputs = std::vector<int>{3, 3, 1107, -1, 8, 3, 4, 3, 99};
     auto id = 0;
     std::cout << "Please enter the system id: ";
