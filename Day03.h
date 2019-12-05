@@ -1,6 +1,7 @@
 #include <string>
 #include <iostream>
 #include "inputs03.h"
+#include <algorithm>
 #include <map>
 
 namespace Day03
@@ -99,13 +100,14 @@ namespace Day03
         auto counter = 0;
         std::map<std::pair<int,int>, int> dict;
 
+        //auto shortestParent;
         for (auto wirePt : wire)
         {
             counter ++;
             if ( pt == wirePt)
                 return counter;
             if (dict.find(wirePt) != dict.end())
-                counter = dict.at(wirePt);
+                 counter = dict.at(wirePt);
             else
                 dict[wirePt] = counter;
         }
@@ -119,16 +121,23 @@ namespace Day03
         for ( int y=0; y<wire1.size();y++)
         {
             auto ptY = wire1[y];
-            for ( int x= 0; x< wire2.size(); x++)
+
+            if ( std::find(wire2.begin(),wire2.end(), ptY) != wire2.end())
             {
-                auto ptX = wire2[x];
-                if ( ptY == ptX)
-                {
-                    auto distY = FindMinDistToPt(wire1,ptY);
-                    auto distX = FindMinDistToPt(wire2, ptX);
-                    intercepts.push_back(std::make_pair(ptY, distY+distX));                
-                }
+                auto distY = FindMinDistToPt(wire1,ptY);
+                auto distX = FindMinDistToPt(wire2, ptY);
+                intercepts.push_back(std::make_pair(ptY, distY+distX));                
             }
+            // for ( int x= 0; x< wire2.size(); x++)
+            // {
+            //     auto ptX = wire2[x];
+            //     if ( ptY == ptX)
+            //     {
+            //         auto distY = FindMinDistToPt(wire1,ptY);
+            //         auto distX = FindMinDistToPt(wire2, ptX);
+            //         intercepts.push_back(std::make_pair(ptY, distY+distX));                
+            //     }
+            // }
         }
         return intercepts;
     }
@@ -137,8 +146,14 @@ namespace Day03
     {
         std::cout << GetText() << std::endl;
         auto inputs = inputs::GetInputs03();
-        inputs = std::vector<std::string>{"R75,D30,R83,U83,L12,D49,R71,U7,L72", "U62,R66,U55,R34,D71,R55,D58,R83"};
-
+        // inputs = std::vector<std::string>{
+        //     "R75,D30,R83,U83,L12,D49,R71,U7,L72",
+        //     "U62,R66,U55,R34,D71,R55,D58,R83"
+        // };
+         inputs = std::vector<std::string> {
+             "R98,U47,R26,D63,R33,U87,L62,D20,R33,U53,R51",
+             "U98,R91,D20,R16,D67,R40,U7,R15,U6,R7"
+        };
          auto origin = std::make_pair(0,0 );
  
         std::vector<std::vector<std::pair<int,int>>> wirePts;
