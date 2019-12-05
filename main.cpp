@@ -4,6 +4,7 @@
 #include "Day02.h"
 #include "Day03.h"
 #include "Day04.h"
+#include "Day05.h"
 
 int main()
 {
@@ -25,6 +26,9 @@ int main()
         break;
     case 4:
         Day04::Process();
+        break;
+    case 5:
+        Day05::Process();
         break;
     default:
         std::cout << "you picked an invalid day" << std::endl;
