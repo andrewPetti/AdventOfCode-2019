@@ -42,8 +42,8 @@ int Op5(std::vector<int> &vect, int pos1, int pos2, int mode1, int mode2, std::v
     if (val1 == 0)
         return 3;
     //*it = mode2 == 0 ? vect[pos2] : pos2;
-    auto val2 = mode2 == 0?vect[pos2]:pos2;
-    it = vect.begin()+val2;
+    auto val2 = mode2 == 0 ? vect[pos2] : pos2;
+    it = vect.begin() + val2;
     //return *it;
     return 0;
 }
@@ -54,8 +54,8 @@ int Op6(std::vector<int> &vect, int pos1, int pos2, int mode1, int mode2, std::v
     if (val1 != 0)
         return 3;
     //*it = mode2 == 0 ? vect[pos2] : pos2;
-    auto val2 = mode2 ==0?vect[pos2]:pos2;
-    it = vect.begin()+val2;
+    auto val2 = mode2 == 0 ? vect[pos2] : pos2;
+    it = vect.begin() + val2;
     //return *it;
     return 0;
 }
@@ -101,9 +101,8 @@ void UpdatePair(std::vector<int> &vect, int val1, int val2)
     vect[2] = val2;
 }
 
-void ExecuteProgram(std::vector<int> &vect, int id /* , int noun, int verb */)
+void ExecuteProgram(std::vector<int> &vect, int id)
 {
-    //UpdatePair(vect, noun, verb);
     auto it = vect.begin();
     auto cont = true;
     while (cont)
@@ -113,10 +112,8 @@ void ExecuteProgram(std::vector<int> &vect, int id /* , int noun, int verb */)
         int mode3 = code / 10000;
         int mode2 = (code % 10000) / 1000;
         int mode1 = (code % 1000) / 100;
-        //int modes = code / 100;
-        //auto pos1 = *(it + 1);
-        //auto pos2 = *(it + 2);
         auto value = -1;
+
         if (op == 99)
         {
             std::cout << "Halting do to Op Code 99" << std::endl;
@@ -173,26 +170,6 @@ void ExecuteProgram(std::vector<int> &vect, int id /* , int noun, int verb */)
             std::cout << "Programmed Halted: reason Unknown!" << std::endl;
         }
     }
-    //for (auto i : vect)
-    //    std::cout << i << " ";
-    //std::cout << std::endl;
-}
-
-int FindAnswer(int &output, const std::vector<int> &inputs)
-{
-    for (int i = 0; i < 100; i++)
-    {
-        for (int j = 0; j < 100; j++)
-        {
-            auto input = inputs;
-            //ExecuteProgram(input, i, j);
-            if (output == input[0])
-            {
-                return 100 * i + j;
-            }
-        }
-    }
-    throw;
 }
 
 void Process()
@@ -214,11 +191,6 @@ void Process()
     std::cout << "Please enter the system id: ";
     std::cin >> id;
     ExecuteProgram(inputs, id);
-
-    // auto output = 19690720;
-    // inputs = inputs::GetInputs02();
-    // auto ans = FindAnswer(output, inputs);
-    // std::cout << "The answer of 100*noun+verb is: " << ans << std::endl;
 }
 
 } // namespace Day05

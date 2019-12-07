@@ -74,46 +74,49 @@ int ExecuteProgram(const std::vector<std::string> &input)
     return totalOrbits;
 }
 
-bool FindPath(std::string start, std::string end, std::map<std::string, std::vector<std::string>> children, std::map<std::string, std::string> parents);
-{
-}
+// bool FindPath(std::string start, std::string end, std::map<std::string, std::vector<std::string>> children, std::map<std::string, std::string> parents);
+// {
+//     return false;
+// }
 
-int ShorestPath(std::string start, std::string end, std::map<std::string, std::vector<std::string>> children, std::map<std::string, std::string> parents);
-{
-    std::vector<std::string> paths;
-    paths.push_back(parents.at(start));
+// int ShorestPath(std::string start, std::string end, std::map<std::string, std::vector<std::string>> children, std::map<std::string, std::string> parents);
+// {
+//     std::vector<std::string> paths;
+//     paths.push_back(parents.at(start));
 
-    auto kids = children.find(start);
-    if (kids != children.end())
-    {
-        for (auto kid : kids)
-            paths.push_back(kid);
-    }
-    auto sibblings = children.find(parent);
-    if (sibblings != children.end())
-    {
-        for (auto sib : sibblings)
-        {
-            if (sib != start)
-                paths = push_back(sib);
-        }
-    }
+//     auto kids = children.find(start);
+//     if (kids != children.end())
+//     {
+//         for (auto kid : kids)
+//             paths.push_back(kid);
+//     }
+//     auto sibblings = children.find(parent);
+//     if (sibblings != children.end())
+//     {
+//         for (auto sib : sibblings)
+//         {
+//             if (sib != start)
+//                 paths = push_back(sib);
+//         }
+//     }
 
-    std::vector<std::vector<std::string>> pathLength;
-    for (auto path : paths)
-    {
-        ShortestPath(path, end, children, parents);
-    }
-}
-int ExecuteProgram2(const std::vector<std::string> &input)
-{
-    std::map<std::string, std::vector<std::string>> orbits;
-    std::map<std::string, std::string> parents;
-    BuildOrbitDictionary(input, orbits, parents);
+//     std::vector<std::vector<std::string>> pathLength;
+//     for (auto path : paths)
+//     {
+//         ShortestPath(path, end, children, parents);
+//     }
+// }
+// int ExecuteProgram2(const std::vector<std::string> &input)
+// {
+//     std::map<std::string, std::vector<std::string>> orbits;
+//     std::map<std::string, std::string> parents;
+//     BuildOrbitDictionary(input, orbits, parents);
 
-    return ShortestPath("YOU", "SAN", orbits, parents);
-    //auto parent = parents.find("YOU");
-}
+//     //return ShortestPath("YOU", "SAN", orbits, parents);
+//     return -1;
+//     //auto parent = parents.find("YOU");
+// }
+
 void Process()
 {
     std::cout << GetText() << std::endl;
@@ -137,7 +140,7 @@ void Process()
     std::cout << "The total direct and indirect orbit count is: " << totalOrbitCount << std::endl;
 
     std::cout << "For part 2 find min number of steps from YOU to SAN: " << std::endl;
-    auto minSteps = ExecuteProgam2(input);
+    //    auto minSteps = ExecuteProgam2(input);
 }
 
 } // namespace Day06
