@@ -7,6 +7,8 @@
 #include "Day05.h"
 #include "Day06.h"
 #include "Day07.h"
+#include "Day08.h"
+
 int main()
 {
     std::cout << "Please pick the day to execute: ";
@@ -37,9 +39,15 @@ int main()
     case 7:
         Day07::Process();
         break;
+    case 8:
+        Day08::Process();
+        break;
     default:
         std::cout << "you picked an invalid day" << std::endl;
     }
 
+    std::cout << "Enter any letter to exit: ";
+    char letter;
+    std::cin >> letter;
     return 0;
 }

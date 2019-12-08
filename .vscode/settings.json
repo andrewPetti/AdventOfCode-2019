@@ -66,6 +66,18 @@
         "map": "cpp",
         "mutex": "cpp",
         "ratio": "cpp",
-        "hashtable": "cpp"
+        "hashtable": "cpp",
+        "xfacet": "cpp",
+        "xiosbase": "cpp",
+        "xlocale": "cpp",
+        "xlocinfo": "cpp",
+        "xlocnum": "cpp",
+        "xmemory": "cpp",
+        "xmemory0": "cpp",
+        "xstddef": "cpp",
+        "xstring": "cpp",
+        "xtr1common": "cpp",
+        "xtree": "cpp",
+        "xutility": "cpp"
     }
 }
