@@ -138,14 +138,14 @@ int ExecuteProgram(std::vector<int> vect, int phase, int previousOutput)
         {
             auto pos1 = *(it + 1);
             auto input = 0;
-            if (inputCounter == 0)
-                input = phase;
-            else if (inputCounter == 1)
-                input = previousOutput;
-            else
-                input = currentOutput;
-            Op3(vect, pos1, input);
-            //Op3(vect, pos1, inputCounter == 0 ? phase : previousOutput);
+            // if (inputCounter == 0)
+            //     input = phase;
+            // else if (inputCounter == 1)
+            //     input = previousOutput;
+            // else
+            //     input = currentOutput;
+            //Op3(vect, pos1, input);
+            Op3(vect, pos1, inputCounter == 0 ? phase : previousOutput);
             it = it + 2;
             inputCounter++;
         }
@@ -225,7 +225,7 @@ void Process()
     // } while (std::next_permutation(phases.begin(), phases.end()));
 
     phases = feedbackPhases;
-    phases = std::vector<int>{9, 7, 8, 5, 6};
+    //phases = std::vector<int>{9, 7, 8, 5, 6};
     auto firstpass = true;
     do
     {
@@ -246,7 +246,7 @@ void Process()
             //maxFeedbackPhaseOrder = feedbackPhases;
         }
         firstpass = false;
-    } while (false); //(std::next_permutation(phases.begin(), phases.end()));
+    } while (std::next_permutation(phases.begin(), phases.end()));
     std::cout
         << "The max thruster is: " << maxThrust << " and is found when using phases: ";
     for (auto phase : maxPhaseOrder)
