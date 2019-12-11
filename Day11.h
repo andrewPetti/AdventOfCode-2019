@@ -1,17 +1,22 @@
-#pragma once
-
 #include <string>
 #include <iostream>
-#include "inputs09.h"
+#include "inputs11.h"
+#include "Day09.h"
+#include <set>
 
-namespace Day09
+namespace Day11
 {
-    std::string GetText()
-    {
-        return "You picked Day 09";
-    }
+    enum eDir { Up, Down, Left, Right};
+    enum eColour {colBlack, colWhite};
+    const int BLACK = 1;
+    const int WHITE = 0;
 
-    void GrowMemory(std::vector<long long>& vect, long long newSize)
+std::string GetText()
+{
+    return "You picked Day 11";
+}
+
+ void GrowMemory(std::vector<long long>& vect, long long newSize)
     {
         vect.resize(newSize, 0);
     }
@@ -98,12 +103,14 @@ void Op3(std::vector<long long> &vect, long long pos, long long mode,long long r
     }
 }
 
-void Op4(std::vector<long long> &vect, long long pos, long long mode, long long relativeBase)
+int Op4(std::vector<long long> &vect, long long pos, long long mode, long long relativeBase)
 {
     //auto output = mode == 0 ? vect[pos] : mode == 1? pos: vect[relativeBase + pos];
     auto output = GetValue(vect, pos, mode, relativeBase);
-    std::cout << "output: " << output << std::endl;
+    //std::cout << "output: " << output << std::endl;
+    return output;
 }
+
 
 long long Op5(std::vector<long long> &vect, long long pos1, long long pos2, long long mode1, long long mode2, long long relativeBase, std::vector<long long>::iterator &it)
 {
@@ -180,11 +187,93 @@ void UpdatePair(std::vector<long long> &vect, long long val1, long long val2)
     vect[2] = val2;
 }
 
-void ExecuteProgram(std::vector<long long> &vect, long long id)
+eColour GetCurrentColour(const std::map<std::pair<int,int>,eColour>& pointState, const std::pair<int,int>& currentPoint)
 {
+    auto it = pointState.find(currentPoint);
+    if ( it == pointState.end())
+        return colBlack;
+    
+    return it->second;
+}
+void PaintPoint(std::map<std::pair<int,int>,eColour>& pointState, std::pair<int,int>& pt, const int instruction)
+{
+    auto colour = instruction == 0?colBlack:colWhite;
+    if (pointState.find(pt) == pointState.end())
+    {
+        pointState.insert(std::make_pair(pt, colour));
+    }
+    else
+        pointState[pt] = colour;
+}
+
+void MovePoint(std::pair<int,int>& pt, eDir& currentDir, const int turn)
+{
+    std::cout<< "Moving point: " << pt.first <<"," <<pt.second<< " to ";
+    if ( turn == 0 ) //left
+    {
+        switch (currentDir)
+        {
+            case Up:
+                currentDir = Left;
+                pt.first --;
+            break;
+            case Down:
+                currentDir = Right;
+                pt.first ++;
+            break;
+            case Left:
+                currentDir = Down;
+                pt.second++;
+            break;
+            case Right:
+                currentDir = Up;
+                pt.second--;
+                break;
+            default:
+                throw std::invalid_argument("Incorrect current Direction!");
+        }
+    }
+    if ( turn == 1 )
+    {
+        switch (currentDir)
+        {
+            case Up:
+                currentDir = Right;
+                pt.first ++;
+            break;
+            case Down:
+                currentDir = Left;
+                pt.first --;
+            break;
+            case Left:
+                currentDir = Up;
+                pt.second--;
+            break;
+            case Right:
+                currentDir = Down;
+                pt.second++;
+                break;
+            default:
+                throw std::invalid_argument("Incorrect current Direction!");
+        }        
+    }
+
+    std::cout<< pt.first << ","<< pt.second <<std::endl;
+}
+int ExecuteProgram(std::vector<long long> &vect, const std::pair<int,int>& startPoint, const eDir startDirection)
+{
+    std::map<std::pair<int,int>,eColour> pointState;
+    std::pair<int,int> currentPoint = startPoint;
+    auto currentDirection = startDirection;
     long long relativeBase = 0;
     auto it = vect.begin();
     auto cont = true;
+
+    //part 2
+    pointState.insert(std::make_pair(currentPoint, colWhite));
+
+    auto outputCounter = 0;    
+    std::set<std::pair<int,int>> painted;
     while (cont)
     {
         auto code = *it;
@@ -194,6 +283,7 @@ void ExecuteProgram(std::vector<long long> &vect, long long id)
         long long mode2 = (code % 10000) / 1000;
         long long mode1 = (code % 1000) / 100;
         auto value = -1;
+       
 
         if (op == 99)
         {
@@ -217,14 +307,26 @@ void ExecuteProgram(std::vector<long long> &vect, long long id)
         else if (op == 3)
         {
             auto pos1 = *(it + 1);
-            Op3(vect, pos1, mode1,relativeBase,id);
+            auto colour = GetCurrentColour(pointState, currentPoint);
+            auto input = colour == eColour::colBlack? 0:1;
+            
+            Op3(vect, pos1, mode1,relativeBase,input);
             it = it + 2;
         }
         else if (op == 4)
 
         {
             auto pos1 = *(it + 1);
-            Op4(vect, pos1, mode1, relativeBase);
+            auto output  = Op4(vect, pos1, mode1, relativeBase);
+            outputCounter++;
+            if ( outputCounter % 2 == 1)
+            {
+                PaintPoint(pointState, currentPoint, output);
+                painted.insert(currentPoint);
+            }
+            else
+                MovePoint(currentPoint, currentDirection, output);
+
             it = it + 2;
         }
         else if (op == 5)
@@ -256,25 +358,58 @@ void ExecuteProgram(std::vector<long long> &vect, long long id)
             std::cout << "Programmed Halted: reason Unknown!" << std::endl;
         }
     }
+    std::cout<< "Output Counter is: " <<outputCounter<<std::endl;
+    std::cout << "Set has a size of : " << painted.size()<<std::endl;
+
+    int maxX = 0;
+    int maxY = 0;
+    for (auto i: pointState )
+    {
+        if ( i.first.first> maxX)
+            maxX = i.first.first;
+        if (i.first.second> maxY)
+            maxY = i.first.second;
+    }
+
+    std::vector<std::vector<std::string>> msg;
+
+    for ( int i=0;i<maxY+1; i++)
+    {
+        auto line = std::vector<std::string>(maxX+1,"");
+        msg.push_back(line);
+    }
+
+    for (auto i: pointState)
+    {
+        auto pt = i.first;
+        msg[pt.second][pt.first] = i.second == colBlack?"#":" ";
+    }
+
+    for (auto i: msg)
+    {
+        for (auto j: i)
+            std::cout<< j<<",";
+        std::cout<< std::endl;
+    }
+
+    std::cout<<std::endl;
+    return pointState.size();
 }
 
 void Process()
 {
     std::cout << GetText() << std::endl;
+    auto input = inputs::GetInputs11();
 
-    auto inputs = inputs::GetInputs09();
-    auto id = 0;
-    std::cout << "Please enter the system id: ";
-    std::cin >> id;
+    std::map<std::pair<int,int>,std::string> points;
 
-    //test 1 uses no input
-   // inputs = std::vector<long long> {109,1,204,-1,1001,100,1,100,1008,100,16,101,1006,101,0,99};
-    //test2 - needed long long nad not int's
-    //inputs = std::vector<long long> {1102,34915192,34915192,7,4,7,99,0 };
-    //inputs = std::vector<long long> {104,1125899906842624,99};
-    //Day 1 is to enter id = 1 for test mode;
-    std::cout << "initial size of input: " << inputs.size() << std::endl;
-    ExecuteProgram(inputs, id);
+    auto startPoint = std::make_pair(0,0);
+    auto startDirection = eDir::Up;
+
+    auto output = ExecuteProgram(input, startPoint, startDirection);
+
+    std::cout << "The number of panels painted atlest once: " << output << std::endl;
+
 }
 
-} // namespace Day09
+} // namespace Day04

@@ -10,6 +10,7 @@
 #include "Day08.h"
 #include "Day09.h"
 #include "Day10.h"
+#include "Day11.h"
 
 int main()
 {
@@ -49,6 +50,9 @@ int main()
         break;
     case 10:
         Day10::Process();
+        break;
+    case 11: 
+        Day11::Process();
         break;
     default:
         std::cout << "you picked an invalid day" << std::endl;
