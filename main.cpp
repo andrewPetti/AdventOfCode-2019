@@ -11,6 +11,7 @@
 #include "Day09.h"
 #include "Day10.h"
 #include "Day11.h"
+#include "Day12.h"
 
 int main()
 {
@@ -54,12 +55,15 @@ int main()
     case 11: 
         Day11::Process();
         break;
+    case 12:
+        Day12::Process();
+        break;
     default:
         std::cout << "you picked an invalid day" << std::endl;
     }
 
-    std::cout << "Enter any letter to exit: ";
-    char letter;
-    std::cin >> letter;
+    // std::cout << "Enter any letter to exit: ";
+    // char letter;
+    // std::cin >> letter;
     return 0;
 }
