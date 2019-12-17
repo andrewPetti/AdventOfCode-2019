@@ -12,6 +12,7 @@
 #include "Day10.h"
 #include "Day11.h"
 #include "Day12.h"
+#include "Day13.h"
 
 #include "Day14.h"
 
@@ -60,7 +61,9 @@ int main()
     case 12:
         Day12::Process();
         break;
-
+    case 13:
+        Day13::Process();
+        break;
     case 14:
         Day14::Process();
         break;
