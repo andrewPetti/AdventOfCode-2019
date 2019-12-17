@@ -13,11 +13,7 @@
 #include "Day11.h"
 #include "Day12.h"
 #include "Day13.h"
-<<<<<<< Updated upstream
-
 #include "Day14.h"
-=======
->>>>>>> Stashed changes
 
 int main()
 {
@@ -67,12 +63,9 @@ int main()
     case 13:
         Day13::Process();
         break;
-<<<<<<< Updated upstream
     case 14:
         Day14::Process();
         break;
-=======
->>>>>>> Stashed changes
     default:
         std::cout << "you picked an invalid day" << std::endl;
     }
